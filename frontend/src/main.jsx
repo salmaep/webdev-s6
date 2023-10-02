@@ -8,6 +8,7 @@ import Register from "./pages/Register/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import Dosen from "./pages/Dosen/index.jsx";
 import DetailDosen from "./pages/Dosen/detail.jsx";
+import addDosen from "./pages/Dosen/addDosen.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,9 +32,13 @@ const router = createBrowserRouter([
     element: <DetailDosen />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "/dosen/addDosen",
+    element: <AddDosen />,
   },
+  {
+    path : "/dashboard",
+    element : <Dashboard/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

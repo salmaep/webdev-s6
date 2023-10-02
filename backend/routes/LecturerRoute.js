@@ -20,7 +20,7 @@ router.post('/login', login)
 
 // Dosen
 router.post('/lecturer', createLecturer);
-router.get('/lecturer', getAllLecturers);
+router.get('/lecturers', getAllLecturers);
 router.get('/lecturer/:id_dosen', getLecturerById);
 router.patch("/lecturer/:id_dosen", updateLecturer);
 router.delete("/lecturer/:id_dosen", deleteLecturer);
