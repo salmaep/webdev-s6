@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import Topbar from "../../components/topbar";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 const Dosen = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     getListDosen();
   }, []);
@@ -18,32 +22,30 @@ const Dosen = () => {
       },
     })
       .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         return response.json();
       })
       .then((data) => {
         setData(data);
-        console.log(data);
+        setLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
       });
   };
+
   return (
     <div className="h-screen w-full">
       <Topbar />
       <div className="mt-20">
         <h1>Staf Dosen</h1>
-        <div className="grid grid-cols-3">
-          {data.map((item) => (
-            <div className="card w-96 bg-base-100 shadow-xl mt-3 ml-3">
-              {/* <figure>
-                <img
-                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                  alt="Shoes"
-                  className="rounded-full"
-                />
-              </figure> */}
-              <div className="card-body">
+        {!loading && !error && (
+          <div className="grid grid-cols-3">
+            {data.map((item) => (
+              <div key={item.id_dosen} className="card w-96 bg-base-100 shadow-xl mt-3 ml-3 p-4">
                 <p className="text-lg font-bold">{item.full_name}</p>
                 <p>{item.major}</p>
                 <p>{item.study_program}</p>
@@ -57,9 +59,9 @@ const Dosen = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
