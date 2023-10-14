@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [dosen, setDosen] = useState([]);
 
   useEffect(() => {
@@ -32,6 +34,25 @@ const Dashboard = () => {
       .catch((error) => console.error("Error:", error));
   }, []); // Efek ini hanya berjalan sekali saat komponen dimuat
 
+  const handleDelete = (id) => {
+    // Send a DELETE request to the server to delete the specific item with the given id
+    fetch(`http://localhost:5000/lecturer/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Dosen deleted successfully!");
+          // After successful deletion, update the state to re-render the component without the deleted item
+          setDosen(dosen.filter((item) => item.id_dosen !== id));
+        } else {
+          console.error("Error deleting Dosen");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting Dosen:", error);
+      });
+  };
+
   return (
     <div className="h-screen w-screen">
       <div className="h-full flex flex-col items-center justify-center">
@@ -60,17 +81,20 @@ const Dashboard = () => {
                   <td>{d.full_name}</td>
                   <td>{d.major}</td>
                   <td>{d.position}</td>
-                  <td>
-                    {" "}
-                    <td className="border px-4 py-2">
-                      {/* Tombol-tombol CRUD */}
-                      <button className="btn-primary hover:bg-primary-900 text-white font-bold py-2 px-4 mx-2 rounded">
-                        Edit
-                      </button>
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-2 rounded">
-                        Hapus
-                      </button>
-                    </td>
+                  <td className="border px-4 py-2">
+                    {/* Tombol-tombol CRUD */}
+                    <button
+                      className="btn-primary hover:bg-primary-900 text-white font-bold py-2 px-4 mx-2 rounded"
+                      onClick={() => navigate(`/updatedosen/${d.id_dosen}`)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-2 rounded"
+                      onClick={() => handleDelete(d.id_dosen)} // Call handleDelete function with the dosen id
+                    >
+                      Hapus
+                    </button>
                   </td>
                 </tr>
               ))}

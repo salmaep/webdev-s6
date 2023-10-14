@@ -8,6 +8,7 @@ import Register from "./pages/Register/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import Dosen from "./pages/Dosen/index.jsx";
 import DetailDosen from "./pages/Dosen/detail.jsx";
+import UpdateDataDosen from "./pages/Dashboard/updateDataDosen.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/updatedosen/:dosenId",
+    element: <UpdateDataDosen />,
   },
 ]);
 
