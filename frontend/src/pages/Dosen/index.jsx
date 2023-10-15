@@ -38,30 +38,42 @@ const Dosen = () => {
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-screen">
       <Topbar />
       <div className="mt-20">
-        <h1>Staf Dosen</h1>
-        {!loading && !error && (
-          <div className="grid grid-cols-3">
-            {data.map((item) => (
-              <div key={item.id_dosen} className="card w-96 bg-base-100 shadow-xl mt-3 ml-3 p-4">
+        <div className="flex justify-center items-center">
+          <h1>Staf Dosen</h1>
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-3 ml-3">
+          {data.map((item) => (
+            <div
+              key={item.id_dosen}
+              className="card w-96 bg-base-100 shadow-xl"
+            >
+              <figure className="text-center p-4">
+                <img
+                  src={item.profile_picture} // Assuming item.profile_picture contains the image URL
+                  alt="Profile"
+                  className="rounded-full h-44 w-44 mx-auto"
+                />
+              </figure>
+              <div className="card-body text-center">
                 <p className="text-lg font-bold">{item.full_name}</p>
                 <p>{item.major}</p>
                 <p>{item.study_program}</p>
                 <p className="font-semibold">{item.email}</p>
-                <div className="card-actions justify-end">
+                <div className="card-actions justify-center mt-4">
                   <button
                     onClick={() => navigate(`/dosen/${item.id_dosen}`)}
-                    className="btn btn-primary flex grow"
+                    className="btn btn-primary"
                   >
                     Profil
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

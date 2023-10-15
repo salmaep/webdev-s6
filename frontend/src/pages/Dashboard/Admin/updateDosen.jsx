@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import Topbar from "../../../components/topbar";
+import SideBar from "../../../components/sidebar";
 
 const UpdateDataDosen = () => {
+  // console.log(props);
   const { dosenId } = useParams();
   console.log(dosenId);
   const navigate = useNavigate();
@@ -71,7 +74,7 @@ const UpdateDataDosen = () => {
       .then((response) => {
         if (response.ok) {
           console.log("Dosen data updated successfully!");
-          navigate("/dashboard");
+          navigate("/dashboard/admin");
         } else {
           console.error("Error updating Dosen data");
         }
@@ -80,13 +83,18 @@ const UpdateDataDosen = () => {
         console.error("Error updating Dosen data:", error);
       });
   };
-
   return (
-    <div className="h-screen w-screen">
-      <div className="flex justify-center items-center">
-        <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="h-screen w-screen flex">
+      <Topbar contentType="admin" />
+      <div className="w-1/4 flex flex-col gap-3 items-center">
+        <SideBar contentType="admin" />
+      </div>
+      <div className="w-3/4 flex flex-col gap-3 items-center p-5">
+        <div className="mt-16">
+          <div className="max-w-md mb-5">
+            <h4 className="text-5xl font-bold">Profile Dosen</h4>
+          </div>
           <div className="card-body">
-            <h2 className="card-title">Profil Dosen</h2>
             <div className="flex flex-col items-start">
               <label htmlFor="full_name">Full Name</label>
               <input
@@ -117,8 +125,9 @@ const UpdateDataDosen = () => {
             </div>
             <div className="flex flex-col items-start">
               <label htmlFor="bio">Bio</label>
-              <textarea
+              <input
                 id="bio"
+                type="text"
                 className="border rounded p-2 w-full"
                 value={formData.bio}
                 onChange={(e) =>
@@ -217,7 +226,7 @@ const UpdateDataDosen = () => {
             <div className="card-actions justify-between mt-2">
               <button
                 type="button"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/dashboard/admin")}
                 className="btn btn-sm"
               >
                 <BiArrowBack /> Back
