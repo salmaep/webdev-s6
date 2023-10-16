@@ -100,6 +100,7 @@ const DashboardAdmin = () => {
         console.error("Error deleting Dosen:", error);
       });
   };
+
   return (
     <div className="h-screen w-screen flex">
       <Topbar contentType="admin" />
@@ -149,8 +150,10 @@ const DashboardAdmin = () => {
                         >
                           <FaRegEdit />
                         </button>
-                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-2 rounded">
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-2 rounded"
                           onClick={() => handleDelete(d.id_dosen)}
+                        >
                           <RiDeleteBin5Line />
                         </button>
                       </td>
