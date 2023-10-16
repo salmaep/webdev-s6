@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import Topbar from "../../../components/topbar";
 import SideBar from "../../../components/sidebar";
 
 const UpdateDataDosen = () => {
   // console.log(props);
+  const dataAkun = JSON.parse(localStorage.getItem("infoAkun"));
+  // console.log(dataAkun);
   const { dosenId } = useParams();
-  console.log(dosenId);
+  // console.log(dosenId);
+  const dataDosen = JSON.parse(localStorage.getItem("idDosen"));
+  console.log(dataDosen);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     full_name: "",
@@ -20,11 +25,15 @@ const UpdateDataDosen = () => {
     major: "",
     position: "",
     study_program: "",
+    id_user_account: "",
   });
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (dataAkun.role != "Admin") {
+      navigate("/");
+    }
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -63,24 +72,57 @@ const UpdateDataDosen = () => {
       console.error("Full Name and Email are required.");
       return;
     }
+    // Periksa apakah data profil sudah ada
+    if (formData.id) {
+      // Data profil sudah ada, lakukan pembaruan
+      fetch(`http://localhost:5000/lecturer/${dosenId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          id_user_account: dosenId,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Dosen data updated successfully!");
+            navigate("/dashboard/admin");
+          } else {
+            console.error("Error updating Dosen data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating Dosen data:", error);
+        });
+    } else {
+      // Data profil belum ada, lakukan penambahan
+      handleAddProfile(formData);
+    }
+  };
 
-    fetch(`http://localhost:5000/lecturer/${dosenId}`, {
-      method: "PATCH",
+  const handleAddProfile = (data) => {
+    fetch("http://localhost:5000/lecturer", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...data,
+        id_user_account: dataDosen,
+      }),
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Dosen data updated successfully!");
+          console.log("Dosen data added successfully!");
           navigate("/dashboard/admin");
         } else {
-          console.error("Error updating Dosen data");
+          console.error("Error adding Dosen data");
         }
       })
       .catch((error) => {
-        console.error("Error updating Dosen data:", error);
+        console.error("Error adding Dosen data:", error);
       });
   };
   return (

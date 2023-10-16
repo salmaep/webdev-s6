@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 
 const Topbar = ({ contentType }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <div className="navbar bg-base-100 absolute top-0 w-full">
       <div className="navbar-start">
@@ -32,7 +34,7 @@ const Topbar = ({ contentType }) => {
             </li>
           </ul>
         </div>
-        {contentType === "admin" ? (
+        {contentType === "admin" && location.pathname != "/dashboard/admin" ? (
           <button
             className="btn btn-ghost normal-case text-xl"
             onClick={() => navigate(`/dashboard/admin`)}
@@ -40,7 +42,7 @@ const Topbar = ({ contentType }) => {
             <MdOutlineArrowBackIosNew />
           </button>
         ) : (
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <a className="btn btn-ghost normal-case text-xl">PolbanEduStaff</a>
         )}
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -58,7 +60,7 @@ const Topbar = ({ contentType }) => {
       </div>
       <div className="navbar-end">
         {contentType === "admin" || contentType === "dosen" ? (
-          <Link className="btn" to={"/logout"}>
+          <Link className="btn" to={"/"}>
             Logout
           </Link>
         ) : (
