@@ -8,7 +8,6 @@ const EducationHisDosen = () => {
   const dataAkun = JSON.parse(localStorage.getItem("infoAkun"));
   console.log(dataAkun);
   const [eduHis, setEduHis] = useState([]);
-  const [selectedPKM, setSelectedPKM] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:5000/login`)
@@ -33,7 +32,7 @@ const EducationHisDosen = () => {
 
   const getEducationHistory = () => {
     fetch(
-      `http://localhost:5000/education-history/${dataAkun.id_user_account}`,
+      `http://localhost:5000/education-history/${dataAkun.profile_dosen.id_dosen}`,
       {
         method: "get",
         headers: {

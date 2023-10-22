@@ -7,9 +7,6 @@ const ProfileDosen = () => {
   const navigate = useNavigate();
   const dataAkun = JSON.parse(localStorage.getItem("infoAkun"));
   console.log(dataAkun);
-  if (dataAkun.role != "Dosen") {
-    navigate("/");
-  }
   const { dosenId } = useParams();
   console.log(dosenId);
 
@@ -37,7 +34,7 @@ const ProfileDosen = () => {
   }, []);
 
   const getProfileDosen = () => {
-    fetch(`http://localhost:5000/lecturer/${dataAkun.id_user_account}`, {
+    fetch(`http://localhost:5000/lecturer/${dataAkun.profile_dosen.id_dosen}`, {
       method: "get",
       headers: {
         Accept: "application/json",
@@ -70,7 +67,7 @@ const ProfileDosen = () => {
             </div>
             <div className="p-5 w-full">
               <div className="w-full rounded-md flex items-start  h-max ">
-                <div className="mr-10 mt-3">
+                <div className=" ml-5 mr-20 mt-3">
                   <img
                     src={dosen.profile_picture}
                     alt=""

@@ -5,11 +5,8 @@ import Topbar from "../../../components/topbar";
 import SideBar from "../../../components/sidebar";
 
 const UpdateDataDosen = () => {
-  // console.log(props);
   const dataAkun = JSON.parse(localStorage.getItem("infoAkun"));
-  // console.log(dataAkun);
   const { dosenId } = useParams();
-  // console.log(dosenId);
   const dataDosen = JSON.parse(localStorage.getItem("idDosen"));
   console.log(dataDosen);
 
@@ -25,7 +22,7 @@ const UpdateDataDosen = () => {
     major: "",
     position: "",
     study_program: "",
-    id_user_account: "",
+    id_dosen: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -34,26 +31,24 @@ const UpdateDataDosen = () => {
     if (dataAkun.role != "Admin") {
       navigate("/");
     }
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/lecturer/${dosenId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setFormData(data);
-        } else {
-          console.error("Failed to fetch data");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, [dosenId]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/lecturer/${dosenId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setFormData(data);
+      } else {
+        console.error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -67,13 +62,8 @@ const UpdateDataDosen = () => {
   };
 
   const handleFormSubmit = () => {
-    // Validasi data sebelum pengiriman
-    if (!formData.full_name || !formData.email) {
-      console.error("Full Name and Email are required.");
-      return;
-    }
     // Periksa apakah data profil sudah ada
-    if (formData.id) {
+    if (formData.id_dosen) {
       // Data profil sudah ada, lakukan pembaruan
       fetch(`http://localhost:5000/lecturer/${dosenId}`, {
         method: "PATCH",
@@ -82,7 +72,6 @@ const UpdateDataDosen = () => {
         },
         body: JSON.stringify({
           ...formData,
-          id_user_account: dosenId,
         }),
       })
         .then((response) => {
@@ -103,23 +92,26 @@ const UpdateDataDosen = () => {
   };
 
   const handleAddProfile = (data) => {
-    fetch(`http://localhost:5000/lecturer/${dosenId}`, {
-      method: "PATCH",
+    fetch("http://localhost:5000/lecturer", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData), // Mengirim atribut-atribut dari formData yang ingin diperbarui
+      body: JSON.stringify({
+        ...data,
+        id_user_account: dataDosen,
+      }),
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Dosen data updated successfully!");
+          console.log("Dosen data added successfully!");
           navigate("/dashboard/admin");
         } else {
-          console.error("Error updating Dosen data");
+          console.error("Error adding Dosen data");
         }
       })
       .catch((error) => {
-        console.error("Error updating Dosen data:", error);
+        console.error("Error adding Dosen data:", error);
       });
   };
   return (

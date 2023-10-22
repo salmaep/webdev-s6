@@ -42,20 +42,12 @@ const Topbar = ({ contentType }) => {
             <MdOutlineArrowBackIosNew />
           </button>
         ) : (
-          <a className="btn btn-ghost normal-case text-xl">PolbanEduStaff</a>
+          <p className="pl-3 font-bold normal-case text-xl">PolbanEduStaff</p>
         )}
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            {contentType === "dosen" || contentType === "admin" ? (
-              <Link className="display-none" />
-            ) : (
-              <Link to={"/dosen"} className="text-black">
-                Dosen
-              </Link>
-            )}
-          </li>
+          <li></li>
         </ul>
       </div>
       <div className="navbar-end">
