@@ -103,26 +103,23 @@ const UpdateDataDosen = () => {
   };
 
   const handleAddProfile = (data) => {
-    fetch("http://localhost:5000/lecturer", {
-      method: "POST",
+    fetch(`http://localhost:5000/lecturer/${dosenId}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        ...data,
-        id_user_account: dataDosen,
-      }),
+      body: JSON.stringify(formData), // Mengirim atribut-atribut dari formData yang ingin diperbarui
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Dosen data added successfully!");
+          console.log("Dosen data updated successfully!");
           navigate("/dashboard/admin");
         } else {
-          console.error("Error adding Dosen data");
+          console.error("Error updating Dosen data");
         }
       })
       .catch((error) => {
-        console.error("Error adding Dosen data:", error);
+        console.error("Error updating Dosen data:", error);
       });
   };
   return (
