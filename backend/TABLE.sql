@@ -82,10 +82,14 @@ ALTER TABLE pkm ADD COLUMN pkm_link TEXT;
 ALTER TABLE profile_dosen ADD COLUMN major VARCHAR(100);
 ALTER TABLE profile_dosen ADD COLUMN study_program VARCHAR(100);
 ALTER TABLE profile_dosen ADD COLUMN position VARCHAR(100);
+ALTER TABLE pkm ADD COLUMN pdf_pkm TEXT NULL;
+ALTER TABLE research ADD COLUMN pdf_research TEXT NULL;
 
 --Update tipe data table pkm
 ALTER TABLE pkm ALTER COLUMN pkm_title TYPE VARCHAR(150);
 ALTER TABLE pkm ALTER COLUMN partner_name TYPE VARCHAR(150);
+
+
 
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;

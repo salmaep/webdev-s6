@@ -145,6 +145,7 @@ const UpdatePKM = () => {
           pkm_year: "",
           partner_name: "",
           description: "",
+          pdf_pkm: "",
         });
         setShowAddPKMModal(false); // Tutup modal
       })
@@ -182,6 +183,7 @@ const UpdatePKM = () => {
                       <th>Year</th>
                       <th>Partner Name</th>
                       <th>Description</th>
+                      <th>File</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -193,6 +195,7 @@ const UpdatePKM = () => {
                         <td>{item.pkm_year}</td>
                         <td>{item.partner_name}</td>
                         <td>{item.description}</td>
+                        <td>{item.pdf_pkm}</td>
                         <td>
                           <div className="flex">
                             <button
@@ -287,6 +290,22 @@ const UpdatePKM = () => {
                 }
               />
             </div>
+            <div className="form-control w-full mt-">
+              <label className="label">File</label>
+              <textarea
+                rows="2"
+                type="text"
+                placeholder="Type here"
+                className="p-2.5 input input-bordered w-full"
+                value={newPKM.description}
+                onChange={(e) =>
+                  setNewPKM({
+                    ...newPKM,
+                    pdf_pkm: e.target.value,
+                  })
+                }
+              />
+            </div>
             <div className="modal-action">
               <button
                 className="btn mr-2"
@@ -368,6 +387,22 @@ const UpdatePKM = () => {
                   setSelectedPKM({
                     ...selectedPKM,
                     description: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="form-control w-full mt-">
+              <label className="label">File</label>
+              <textarea
+                rows="2"
+                type="text"
+                placeholder="Type here"
+                className="p-2.5 input input-bordered w-full"
+                value={newPKM.description}
+                onChange={(e) =>
+                  setNewPKM({
+                    ...newPKM,
+                    pdf_pkm: e.target.value,
                   })
                 }
               />
